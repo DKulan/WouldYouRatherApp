@@ -2,15 +2,20 @@ import {_getUsers} from '../API/_DATA'
 
 const RECEIVE_USERS = 'RECEIVE_USERS'
 const AUTHED_USER = 'AUTHED_USER'
+const CLEAR_AUTHED = 'CLEAR_AUTHED'
 
 const storeUserData = (users) => ({
     type: RECEIVE_USERS,
     users
 })
 
-const setAuthedUser = (id) => ({
+const setAuthedUser = (authedUser) => ({
     type: AUTHED_USER,
-    id
+    authedUser
+})
+
+const clearAuthedUser = () => ({
+    type: CLEAR_AUTHED
 })
 
 const getUserData = () => {
@@ -25,4 +30,4 @@ const getUserData = () => {
     }
 }
 
-export {getUserData, setAuthedUser}
+export {getUserData, setAuthedUser, clearAuthedUser}

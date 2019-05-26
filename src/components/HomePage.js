@@ -11,7 +11,9 @@ const HomePage = (props) => {
         return null
     } else {
         return (
-            <NavBar />
+            <div>
+                <NavBar />
+            </div>
         )
     }
 

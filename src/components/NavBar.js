@@ -1,64 +1,46 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {clearAuthedUser} from '../actions/users'
 
 
-const NavBar = () => (
-    <nav className="navbar" role="navigation" aria-label="main navigation">
-        <div className="navbar-brand">
-            <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false"
-               data-target="navbarBasicExample">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
+const NavBar = (props) => {
+    const handleLogout = () => {
+        props.dispatch(clearAuthedUser())
+    }
 
-        <div id="navbarBasicExample" className="navbar-menu">
-            <div className="navbar-start">
-                <a className="navbar-item">
-                    Home
-                </a>
+    return (
+        <nav className="navbar" role="navigation" aria-label="main navigation">
+            <div id="navbarBasic" className="navbar-menu">
+                <div className="navbar-start">
+                    <Link to={'/'} className="navbar-item">Home</Link>
+                    <Link to={'/'} className="navbar-item">Leader board</Link>
+                    <Link to={'/'} className="navbar-item">New Question</Link>
+                </div>
 
-                <a className="navbar-item">
-                    Documentation
-                </a>
-
-                <div className="navbar-item has-dropdown is-hoverable">
-                    <a className="navbar-link">
-                        More
-                    </a>
-
-                    <div className="navbar-dropdown">
-                        <a className="navbar-item">
-                            About
-                        </a>
-                        <a className="navbar-item">
-                            Jobs
-                        </a>
-                        <a className="navbar-item">
-                            Contact
-                        </a>
-                        <hr className="navbar-divider"/>
-                        <a className="navbar-item">
-                            Report an issue
-                        </a>
+                <div className="navbar-end">
+                    <div className="navbar-item">
+                        <figure className="image is-32x32">
+                            <img className="is-rounded padding-right" src={props.avatarURL}/>
+                        </figure>
+                        <div className="buttons">
+                            <Link
+                                to={'/login'}
+                                className="button is-primary"
+                                onClick={handleLogout}
+                            >
+                                <strong>Logout</strong>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
+        </nav>
+    )
+}
 
-            <div className="navbar-end">
-                <div className="navbar-item">
-                    <div className="buttons">
-                        <a className="button is-primary">
-                            <strong>Sign up</strong>
-                        </a>
-                        <a className="button is-light">
-                            Log in
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-)
+const mapStateToProps = (state) => ({
+    avatarURL: state.authedUser.avatarURL
+})
 
-export default NavBar
+export default connect(mapStateToProps)(NavBar)

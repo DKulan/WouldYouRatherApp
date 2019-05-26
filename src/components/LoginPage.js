@@ -10,9 +10,18 @@ class LoginPage extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        const selectedUser = this.select.value
+        const userId = this.select.value
 
-        this.props.dispatch(setAuthedUser(selectedUser))
+        const user = this.props.users.find((user) => {
+            if (user.id === userId) {
+                return user.avatarURL
+            }
+        })
+
+        this.props.dispatch(setAuthedUser({
+            userId,
+            avatarURL: Object.values(user.avatarURL)
+        }))
         this.props.history.push('/')
     }
 
@@ -71,7 +80,8 @@ const mapStateToProps = (state) => ({
     users: Object.values(state.users).map((user) => {
         return ({
             id: user.id,
-            name: user.name
+            name: user.name,
+            avatarURL: user.avatarURL
         })
     }),
     loading: state.loading

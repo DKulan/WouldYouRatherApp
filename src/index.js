@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './styles/styles.scss'
 import App from './components/App';
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
 import {logger, checker} from './middleware/middleware'
@@ -9,7 +10,6 @@ import loading from './reducers/loading'
 import users from './reducers/users'
 import questions from './reducers/questions'
 import authedUser from './reducers/authedUser'
-import 'bulma/css/bulma.css'
 import {composeWithDevTools} from 'redux-devtools-extension'
 
 
@@ -24,6 +24,6 @@ const store = createStore(combineReducers({
 
 ReactDOM.render(
     <Provider store={store}>
-        <App/>
+        <App />
     </Provider>, document.getElementById('root'));
 

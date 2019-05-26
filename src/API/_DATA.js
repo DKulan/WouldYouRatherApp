@@ -1,6 +1,6 @@
-import tyler from './images/tyler.jpg'
-import sarah from './images/sarah.jpg'
-import john from './images/john.jpg'
+const tyler = require('./images/tyler.jpg')
+const sarah = require('./images/sarah.jpg')
+const john = require('./images/john.jpg')
 
 
 let users = {

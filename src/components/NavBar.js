@@ -21,7 +21,7 @@ const NavBar = (props) => {
                 <div className="navbar-end">
                     <div className="navbar-item">
                         <figure className="image is-32x32">
-                            <img className="is-rounded padding-right" src={props.avatarURL}/>
+                            <img className="is-rounded padding-right image is-32x32" src={props.avatarURL}/>
                         </figure>
                         <div className="buttons">
                             <Link

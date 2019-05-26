@@ -1,11 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getUserData, setAuthedUser} from '../actions/users'
+import {getQuestionData} from '../actions/questions'
 
 
 class LoginPage extends React.Component {
     componentDidMount() {
         this.props.dispatch(getUserData())
+        this.props.dispatch(getQuestionData())
     }
 
     handleSubmit = (e) => {

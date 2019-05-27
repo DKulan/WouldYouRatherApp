@@ -40,7 +40,7 @@ const NavBar = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    avatarURL: state.authedUser.avatarURL
+    avatarURL: Object.values(state.authedUser.avatarURL)
 })
 
 export default connect(mapStateToProps)(NavBar)

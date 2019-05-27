@@ -1,27 +1,21 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import NavBar from './NavBar'
-import UnansweredQuestions from './UnansweredQuestions'
-import AnsweredQuestions from './AnsweredQuestions'
+import Question from './Question'
 
 
 class HomePage extends React.Component {
     state = {
-        tab: "unanswered"
+        tab: false
     }
 
-    handleTabToggle = () => {
-        if (this.state.tab === "unanswered") {
+    handleTabToggle = (status) => {
+        if (this.state.tab !== status) {
             this.setState(() => ({
-                tab: "answered"
-            }))
-        } else {
-            this.setState(() => ({
-                tab: "unanswered"
+                tab: status
             }))
         }
     }
-
 
     render() {
         const {authedUser, history} = this.props
@@ -39,21 +33,30 @@ class HomePage extends React.Component {
                             <div className="container">
                                 <nav className="panel homepage-list">
                                     <p className="panel-tabs">
-                                        {
-                                            tab === "unanswered"
-                                                ? <a className="is-active">Unanswered</a>
-                                                : <a onClick={this.handleTabToggle}>Unanswered</a>
-                                        }
-                                        {
-                                            tab === "answered"
-                                                ? <a className="is-active">Answered</a>
-                                                : <a onClick={this.handleTabToggle}>Answered</a>
-                                        }
+                                        <a
+                                            className={!tab ? 'is-active' : ''}
+                                            onClick={() => this.handleTabToggle(false)}
+                                        >Unanswered</a>
+                                        <a
+                                            className={tab ? 'is-active' : ''}
+                                            onClick={() => this.handleTabToggle(true)}
+                                        >Answered</a>
                                     </p>
                                     {
-                                        tab === "unanswered"
-                                            ? <UnansweredQuestions/>
-                                            : <AnsweredQuestions/>
+                                        !tab
+                                            ? this.props.sortedUnanswered.map((question) => (
+                                                <Question
+                                                    question={question}
+                                                    key={question.id}
+                                                />
+                                            ))
+                                            : this.props.sortedAnswered.map((question) => (
+                                                <Question
+                                                    question={question}
+                                                    answer={authedUser.answers[question.id]}
+                                                    key={question.id}
+                                                />
+                                            ))
                                     }
                                 </nav>
                             </div>
@@ -65,8 +68,46 @@ class HomePage extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    authedUser: state.authedUser
-})
+const mapStateToProps = ({questions, authedUser}) => {
+    const answered = []
+    const unanswered = []
+
+    Object.keys(questions).map((key) => questions[key]).filter(question => {
+        if (Object.keys(authedUser).length > 0) {
+            if (authedUser.answers.hasOwnProperty(question.id)) {
+                answered.push(question)
+            } else {
+                unanswered.push(question)
+            }
+        }
+    })
+
+    const sortedAnswered = answered.sort((a, b) => {
+        if (a.timestamp < b.timestamp) {
+            return -1
+        } else if (a.timestamp > b.timestamp) {
+            return 1
+        } else {
+            return 0
+        }
+    })
+
+    const sortedUnanswered = unanswered.sort((a, b) => {
+        if (a.timestamp < b.timestamp) {
+            return -1
+        } else if (a.timestamp > b.timestamp) {
+            return 1
+        } else {
+            return 0
+        }
+    })
+
+    return {
+        questions,
+        authedUser,
+        sortedAnswered,
+        sortedUnanswered
+    }
+}
 
 export default connect(mapStateToProps)(HomePage)

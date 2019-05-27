@@ -16,14 +16,11 @@ class LoginPage extends React.Component {
 
         const user = this.props.users.find((user) => {
             if (user.id === userId) {
-                return user.avatarURL
+                return user
             }
         })
 
-        this.props.dispatch(setAuthedUser({
-            userId,
-            avatarURL: Object.values(user.avatarURL)
-        }))
+        this.props.dispatch(setAuthedUser(user))
         this.props.history.push('/')
     }
 
@@ -81,9 +78,7 @@ class LoginPage extends React.Component {
 const mapStateToProps = (state) => ({
     users: Object.values(state.users).map((user) => {
         return ({
-            id: user.id,
-            name: user.name,
-            avatarURL: user.avatarURL
+            ...user
         })
     }),
     loading: state.loading

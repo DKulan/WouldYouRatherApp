@@ -20,10 +20,10 @@ const NavBar = (props) => {
 
                 <div className="navbar-end">
                     <div className="navbar-item">
-                        <figure className="image is-32x32">
-                            <img className="is-rounded padding-right image is-32x32" src={props.avatarURL}/>
-                        </figure>
-                        <div className="buttons">
+                        <div className="image is-32x32">
+                            <img className="is-rounded image is-32x32" src={props.avatarURL}/>
+                        </div>
+                        <div className="buttons left-margin">
                             <Link
                                 to={'/login'}
                                 className="button is-primary"

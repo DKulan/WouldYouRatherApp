@@ -1,10 +1,40 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
 
 const Question = (props) => (
-    <a className="panel-block">
-        {props.question.author}
-    </a>
+    <React.Fragment>
+        <span className="panel-icon image is-32x32">
+            <img
+                className="is-rounded"
+                src={props.userDetails.avatarURL}
+            />
+        </span>
+        <h1>{props.userDetails.name} posts: would you
+            rather {props.userDetails.optionOne.text} OR {props.userDetails.optionTwo.text}</h1>
+    </React.Fragment>
 )
 
-export default Question
+const mapStateToProps = ({users}, {question}) => {
+    let userDetails = {}
+
+    Object.keys(users).map((key) => users[key]).filter((user) => {
+        if (question.author.includes(user.id)) {
+            userDetails = {
+                avatarURL: user.avatarURL,
+                name: user.name
+            }
+        }
+    })
+
+    return {
+        userDetails: {
+            name: userDetails.name,
+            avatarURL: Object.values(userDetails.avatarURL),
+            optionOne: question.optionOne,
+            optionTwo: question.optionTwo
+        }
+    }
+}
+
+export default connect(mapStateToProps)(Question)

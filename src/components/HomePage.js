@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import NavBar from './NavBar'
 import Question from './Question'
+import moment from 'moment'
 
 
 class HomePage extends React.Component {
@@ -45,17 +46,33 @@ class HomePage extends React.Component {
                                     {
                                         !tab
                                             ? this.props.sortedUnanswered.map((question) => (
-                                                <Question
-                                                    question={question}
-                                                    key={question.id}
-                                                />
+                                                <div>
+                                                    <div className="panel-heading">
+                                                        <p className="small-heading-text">Posted
+                                                            on: {moment(question.timestamp).format('MMMM Do, YYYY')}</p>
+                                                    </div>
+                                                    <a className="panel-block">
+                                                        <Question
+                                                            question={question}
+                                                            key={question.id}
+                                                        />
+                                                    </a>
+                                                </div>
                                             ))
                                             : this.props.sortedAnswered.map((question) => (
-                                                <Question
-                                                    question={question}
-                                                    answer={authedUser.answers[question.id]}
-                                                    key={question.id}
-                                                />
+                                                <div>
+                                                    <div className="panel-heading">
+                                                        <p className="small-heading-text">Posted
+                                                            on: {moment(question.timestamp).format('MMMM Do, YYYY')}</p>
+                                                    </div>
+                                                    <a className="panel-block">
+                                                        <Question
+                                                            question={question}
+                                                            answer={authedUser.answers[question.id]}
+                                                            key={question.id}
+                                                        />
+                                                    </a>
+                                                </div>
                                             ))
                                     }
                                 </nav>
@@ -68,7 +85,7 @@ class HomePage extends React.Component {
     }
 }
 
-const mapStateToProps = ({questions, authedUser}) => {
+const mapStateToProps = ({questions, authedUser, users}) => {
     const answered = []
     const unanswered = []
 

@@ -6,12 +6,16 @@
 @import "~bulma/sass/components/_all.sass";
 @import "~bulma/sass/form/_all.sass";
 
-.padding-right {
-  padding-right: 2px;
-}
-
 html {
   background-color: lightgrey;
+}
+
+.small-heading-text {
+  font-size: 14px;
+}
+
+.left-margin {
+  margin-left: 20px;
 }
 
 .homepage-list {

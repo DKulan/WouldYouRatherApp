@@ -1,30 +1,62 @@
 import React from 'react'
 import NavBar from './NavBar'
+import {Link} from 'react-router-dom'
 
 
-const Vote = (props) => {
-    const optionOne = Object.values(props.location.state.question.optionOne.text)
-    const optionTwo = Object.values(props.location.state.question.optionTwo.text)
+class Vote extends React.Component {
+    render() {
+        const optionOne = Object.values(this.props.location.state.question.optionOne.text)
+        const optionTwo = Object.values(this.props.location.state.question.optionTwo.text)
 
-    return (
-        <div>
-            <NavBar/>
-            <article className="message is-primary">
-                <div className="message-header">
-                    <p>Would you rather?</p>
-                    <button className="delete" aria-label="delete"></button>
+        return (
+            <div>
+                <NavBar/>
+                <div className="hero">
+                    <div className="div hero-body">
+                        <div className="container">
+                            <nav className="panel has-background-white">
+                                <div className="panel-heading">
+                                    <h1><strong className="has-text-primary">Would you rather?</strong></h1>
+                                </div>
+                                <form>
+                                    <div className="panel-body">
+                                        <div className="panel-block">
+                                            <div className="field">
+                                                <div className="control">
+                                                    <label>
+                                                        <input type="radio" value="optionOne" name="options"/>
+                                                        {optionOne}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="panel-block">
+                                            <div className="field">
+                                                <div className="control">
+                                                    <label>
+                                                        <input type="radio" value="optionTwo" name="options"/>
+                                                        {optionTwo}
+                                                    </label>
+                                                </div>
+                                                <hr/>
+                                                <button onSubmit={this.handleSubmit} className="button is-success">
+                                                    Submit
+                                                </button>
+                                                <Link to='/' onSubmit={this.handleSubmit}
+                                                      className="button is-success left-margin">
+                                                    Cancel
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
-                <div className="message-body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Pellentesque risus mi</strong>,
-                    tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam
-                    gravida purus diam, et dictum <a>felis venenatis</a> efficitur. Aenean ac <em>eleifend lacus</em>,
-                    in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id
-                    porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
-                </div>
-            </article>
-
-        </div>
-    )
+            </div>
+        )
+    }
 }
 
 export default Vote

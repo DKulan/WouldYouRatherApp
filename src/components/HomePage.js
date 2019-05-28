@@ -34,7 +34,7 @@ class HomePage extends React.Component {
                     <div className="hero">
                         <div className="div hero-body">
                             <div className="container">
-                                <nav className="panel list-panel">
+                                <nav className="panel has-background-white">
                                     <p className="panel-tabs">
                                         <a
                                             className={!tab ? 'is-active' : ''}

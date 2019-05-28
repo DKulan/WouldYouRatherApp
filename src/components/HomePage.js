@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import NavBar from './NavBar'
 import Question from './Question'
 import moment from 'moment'
+import Vote from './Vote'
+import {Link} from 'react-router-dom'
 
 
 class HomePage extends React.Component {
@@ -32,7 +34,7 @@ class HomePage extends React.Component {
                     <div className="hero">
                         <div className="div hero-body">
                             <div className="container">
-                                <nav className="panel homepage-list">
+                                <nav className="panel list-panel">
                                     <p className="panel-tabs">
                                         <a
                                             className={!tab ? 'is-active' : ''}
@@ -51,12 +53,15 @@ class HomePage extends React.Component {
                                                         <p className="small-heading-text">Posted
                                                             on: {moment(question.timestamp).format('MMMM Do, YYYY')}</p>
                                                     </div>
-                                                    <a className="panel-block">
+                                                    <Link to={{
+                                                        pathname: '/vote',
+                                                        state: {question}
+                                                    }} className="panel-block">
                                                         <Question
                                                             question={question}
                                                             key={question.id}
                                                         />
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                             ))
                                             : this.props.sortedAnswered.map((question) => (
@@ -65,13 +70,16 @@ class HomePage extends React.Component {
                                                         <p className="small-heading-text">Posted
                                                             on: {moment(question.timestamp).format('MMMM Do, YYYY')}</p>
                                                     </div>
-                                                    <a className="panel-block">
+                                                    <Link to={{
+                                                        pathname: '/vote',
+                                                        state: {question}
+                                                    }} className="panel-block">
                                                         <Question
                                                             question={question}
                                                             answer={authedUser.answers[question.id]}
                                                             key={question.id}
                                                         />
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                             ))
                                     }

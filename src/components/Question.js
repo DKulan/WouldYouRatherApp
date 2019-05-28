@@ -10,8 +10,8 @@ const Question = (props) => (
                 src={props.userDetails.avatarURL}
             />
         </span>
-        <h1>{props.userDetails.name} posts: would you
-            rather {props.userDetails.optionOne.text} OR {props.userDetails.optionTwo.text}</h1>
+        <h1><strong>{props.userDetails.name} posts:</strong> would you
+            rather {props.userDetails.optionOne.text} <strong>OR</strong> {props.userDetails.optionTwo.text}</h1>
     </React.Fragment>
 )
 

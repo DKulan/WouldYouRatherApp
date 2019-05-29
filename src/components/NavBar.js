@@ -1,12 +1,13 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
+import {clearAuthedUser} from '../actions/users'
+import {connect} from 'react-redux'
 
 
-const NavBar = () => {
-    const authedUser = JSON.parse(localStorage.getItem('authedUser'))
-
+const NavBar = (props) => {
     const handleLogout = () => {
-        localStorage.removeItem('authedUser')
+        props.dispatch(clearAuthedUser())
+        props.history.push('/login')
     }
 
     return (
@@ -17,23 +18,21 @@ const NavBar = () => {
                     <Link to={'/'} className="navbar-item">Leader board</Link>
                     <Link to={'/'} className="navbar-item">New Question</Link>
                 </div>
-
                 <div className="navbar-end">
                     <div className="navbar-item">
                         <div className="image is-32x32">
                             <img className="is-rounded image is-32x32"
-                                 src={authedUser.avatarURL}
+                                 src={props.authedUser.avatarURL}
                                  alt="avatar icon"
                             />
                         </div>
                         <div className="buttons left-margin">
-                            <Link
-                                to={'/login'}
+                            <button
                                 className="button is-primary"
                                 onClick={handleLogout}
                             >
                                 <strong>Logout</strong>
-                            </Link>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -42,4 +41,10 @@ const NavBar = () => {
     )
 }
 
-export default NavBar
+const wrapRouter = withRouter(NavBar)
+
+const mapStateToProps = ({authedUser}) => ({
+    authedUser
+})
+
+export default connect(mapStateToProps)(wrapRouter)

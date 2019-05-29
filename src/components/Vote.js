@@ -17,8 +17,6 @@ class Vote extends React.Component {
 
     handleSubmitVote = (answerObj) => {
         this.props.dispatch(saveUserAnswer(answerObj))
-
-        this.props.history.push('/')
     }
 
     render() {
@@ -26,7 +24,6 @@ class Vote extends React.Component {
         const {question} = this.props.location.state
         const optionOne = question.optionOne.text
         const optionTwo = question.optionTwo.text
-        const authedUser = JSON.parse(localStorage.getItem('authedUser'))
 
         return (
             <div>
@@ -71,7 +68,7 @@ class Vote extends React.Component {
                                             <button
                                                 onClick={() => {
                                                     this.handleSubmitVote({
-                                                        authedUser: authedUser.id,
+                                                        authedUser: this.props.authedUser.id,
                                                         qid,
                                                         answer: this.state.radioValue
                                                     })
@@ -95,4 +92,8 @@ class Vote extends React.Component {
     }
 }
 
-export default connect()(Vote)
+const mapStateToProps = ({authedUser}) => ({
+    authedUser
+})
+
+export default connect(mapStateToProps)(Vote)

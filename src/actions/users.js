@@ -1,5 +1,4 @@
 import {_getUsers, _saveQuestionAnswer} from '../API/_DATA'
-import {hideLoading, showLoading} from 'react-redux-loading-bar'
 import {getQuestionData} from './questions'
 
 const RECEIVE_USERS = 'RECEIVE_USERS'
@@ -36,11 +35,9 @@ const saveUserAnswer = (answerObj) => {
 
 const getUserData = () => {
     return (dispatch) => {
-        dispatch(showLoading())
         return _getUsers()
             .then((users) => {
                 dispatch(storeUserData(users))
-                dispatch(hideLoading())
             })
             .catch(() => {
                 alert('Error fetching users')
@@ -48,4 +45,4 @@ const getUserData = () => {
     }
 }
 
-export {getUserData, setAuthedUser, saveUserAnswer, clearAuthedUser}
+export {getUserData, setAuthedUser, clearAuthedUser, saveUserAnswer}

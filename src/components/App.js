@@ -1,9 +1,8 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
+import {connect} from 'react-redux'
 import PrivateRoute from 'react-private-route'
 import NotFound from './NotFound'
-import LoadingBar from 'react-redux-loading-bar'
-import {connect} from 'react-redux'
 import LoginPage from './LoginPage'
 import HomePage from './HomePage'
 import Vote from './Vote'
@@ -11,7 +10,7 @@ import Vote from './Vote'
 
 const App = (props) => {
     const isLoggedIn = () => {
-        if (!JSON.parse(localStorage.getItem('authedUser'))) {
+        if (Object.entries(props.authedUser).length === 0) {
             return false
         } else {
             return true
@@ -24,28 +23,25 @@ const App = (props) => {
                 {...rest}
                 render={(props) => authenticated === true
                     ? <Component {...props} />
-                    : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
+                    : <Redirect to={{pathname: '/login', state: {from: props.location}}}/>}
             />
         )
     }
 
     return (
         <BrowserRouter>
-            <LoadingBar/>
-            {props.loading ? null : (
-                <Switch>
+            <Switch>
                     <Route path="/login" component={LoginPage}/>
-                    <PrivateRoute exact path="/" component={HomePage} authenticated={isLoggedIn()} />
-                    <PrivateRoute path="/question/:qid" component={Vote} authenticated={isLoggedIn()} />
+                    <PrivateRoute exact path="/" component={HomePage} authenticated={isLoggedIn()}/>
+                    <PrivateRoute path="/question/:qid" component={Vote} authenticated={isLoggedIn()}/>
                     <Route component={NotFound}/>
-                </Switch>
-            )}
+            </Switch>
         </BrowserRouter>
     )
 }
 
-const mapStateToProps = ({authedUser, loadingBar}) => ({
-    loading: loadingBar > 0
+const mapStateToProps = ({authedUser}) => ({
+    authedUser
 })
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(App)

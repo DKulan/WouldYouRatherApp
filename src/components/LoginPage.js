@@ -35,7 +35,7 @@ class LoginPage extends React.Component {
                 <section className="hero is-alt is-fullheight">
                     <div className="hero-body">
                         <div className="container">
-                            <form className="card is-rounded">
+                            <form className="card">
                                 <div className="card-content">
                                     <h1 className="title">
                                         Welcome to the Would You Rather App!
@@ -61,7 +61,7 @@ class LoginPage extends React.Component {
                                             <button
                                                 onClick={this.handleSubmit}
                                                 type="submit"
-                                                className="button is-primary is-medium is-fullwidth">
+                                                className="button is-primary is-medium">
                                                 Login
                                             </button>
                                         </p>

@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getUserData, setAuthedUser} from '../actions/users'
+import {getUserData} from '../actions/users'
 import {getQuestionData} from '../actions/questions'
 
 
@@ -20,15 +20,16 @@ class LoginPage extends React.Component {
             }
         })
 
-        this.props.dispatch(setAuthedUser(user))
+        localStorage.setItem('authedUser', JSON.stringify(user))
         this.props.history.push('/')
     }
 
     render() {
-        const {users, loading} = this.props
+        const {users, history} = this.props
 
-        if (loading) {
-            return <h3>Loading...</h3>
+        if (localStorage.getItem('authedUser')) {
+            history.push('/')
+            return null
         } else {
             return (
                 <section className="hero is-alt is-fullheight">
@@ -75,13 +76,13 @@ class LoginPage extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    users: Object.values(state.users).map((user) => {
-        return ({
-            ...user
+const
+    mapStateToProps = ({users}) => ({
+        users: Object.values(users).map((user) => {
+            return ({
+                ...user
+            })
         })
-    }),
-    loading: state.loading
-})
+    })
 
 export default connect(mapStateToProps)(LoginPage)

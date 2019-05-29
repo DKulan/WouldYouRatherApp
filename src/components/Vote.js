@@ -1,12 +1,32 @@
 import React from 'react'
 import NavBar from './NavBar'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {saveUserAnswer} from '../actions/users'
 
 
 class Vote extends React.Component {
+    state = {
+        radioValue: 'optionOne'
+    }
+
+    handleChange = (e) => {
+        const radioValue = e.target.value
+        this.setState(() => ({radioValue}))
+    }
+
+    handleSubmitVote = (answerObj) => {
+        this.props.dispatch(saveUserAnswer(answerObj))
+
+        this.props.history.push('/')
+    }
+
     render() {
-        const optionOne = Object.values(this.props.location.state.question.optionOne.text)
-        const optionTwo = Object.values(this.props.location.state.question.optionTwo.text)
+        const {qid} = this.props.match.params
+        const {question} = this.props.location.state
+        const optionOne = question.optionOne.text
+        const optionTwo = question.optionTwo.text
+        const authedUser = JSON.parse(localStorage.getItem('authedUser'))
 
         return (
             <div>
@@ -18,38 +38,54 @@ class Vote extends React.Component {
                                 <div className="panel-heading">
                                     <h1><strong className="has-text-primary">Would you rather?</strong></h1>
                                 </div>
-                                <form>
-                                    <div className="panel-body">
-                                        <div className="panel-block">
-                                            <div className="field">
-                                                <div className="control">
-                                                    <label>
-                                                        <input type="radio" value="optionOne" name="options"/>
-                                                        {optionOne}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="panel-block">
-                                            <div className="field">
-                                                <div className="control">
-                                                    <label>
-                                                        <input type="radio" value="optionTwo" name="options"/>
-                                                        {optionTwo}
-                                                    </label>
-                                                </div>
-                                                <hr/>
-                                                <button onSubmit={this.handleSubmit} className="button is-success">
-                                                    Submit
-                                                </button>
-                                                <Link to='/' onSubmit={this.handleSubmit}
-                                                      className="button is-success left-margin">
-                                                    Cancel
-                                                </Link>
+                                <div className="panel-body">
+                                    <div className="panel-block">
+                                        <div className="field">
+                                            <div className="control">
+                                                <label>
+                                                    <input
+                                                        onChange={this.handleChange}
+                                                        type="radio"
+                                                        value="optionOne"
+                                                        name="options"
+                                                        defaultChecked
+                                                    />
+                                                    {optionOne}
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
+                                    <div className="panel-block">
+                                        <div className="field">
+                                            <div className="control">
+                                                <label>
+                                                    <input
+                                                        onChange={this.handleChange}
+                                                        type="radio"
+                                                        value="optionTwo"
+                                                        name="options"/>
+                                                    {optionTwo}
+                                                </label>
+                                            </div>
+                                            <hr/>
+                                            <button
+                                                onClick={() => {
+                                                    this.handleSubmitVote({
+                                                        authedUser: authedUser.id,
+                                                        qid,
+                                                        answer: this.state.radioValue
+                                                    })
+                                                }}
+                                                type="submit"
+                                                className="button is-success">
+                                                Submit
+                                            </button>
+                                            <Link to='/' className="button is-success left-margin">
+                                                Cancel
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
                             </nav>
                         </div>
                     </div>
@@ -59,4 +95,4 @@ class Vote extends React.Component {
     }
 }
 
-export default Vote
+export default connect()(Vote)

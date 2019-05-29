@@ -8,6 +8,7 @@ const Question = (props) => (
             <img
                 className="is-rounded"
                 src={props.userDetails.avatarURL}
+                alt="avatar icon"
             />
         </span>
         <h1><strong>{props.userDetails.name} posts:</strong> would you
@@ -25,12 +26,13 @@ const mapStateToProps = ({users}, {question}) => {
                 name: user.name
             }
         }
+        return user
     })
 
     return {
         userDetails: {
             name: userDetails.name,
-            avatarURL: Object.values(userDetails.avatarURL),
+            avatarURL: userDetails.avatarURL,
             optionOne: question.optionOne,
             optionTwo: question.optionTwo
         }

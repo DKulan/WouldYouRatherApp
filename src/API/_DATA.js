@@ -1,13 +1,8 @@
-const tyler = require('./images/tyler.jpg')
-const sarah = require('./images/sarah.jpg')
-const john = require('./images/john.jpg')
-
-
 let users = {
     sarahedo: {
         id: 'sarahedo',
         name: 'Sarah Edo',
-        avatarURL: {sarah},
+        avatarURL: require('./images/sarah.jpg'),
         answers: {
             "8xf0y6ziyjabvozdd253nd": 'optionOne',
             "6ni6ok3ym7mf1p33lnez": 'optionTwo',
@@ -19,7 +14,7 @@ let users = {
     tylermcginnis: {
         id: 'tylermcginnis',
         name: 'Tyler McGinnis',
-        avatarURL: {tyler},
+        avatarURL: require('./images/tyler.jpg'),
         answers: {
             "vthrdm985a262al8qx3do": 'optionOne',
             "xj352vofupe1dqz9emx13r": 'optionTwo',
@@ -29,7 +24,7 @@ let users = {
     johndoe: {
         id: 'johndoe',
         name: 'John Doe',
-        avatarURL: {john},
+        avatarURL: require('./images/john.jpg'),
         answers: {
             "xj352vofupe1dqz9emx13r": 'optionOne',
             "vthrdm985a262al8qx3do": 'optionTwo',

@@ -14,16 +14,16 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 
 
 const store = createStore(combineReducers({
-    users,
-    questions,
-    authedUser,
-    loading
+  users,
+  questions,
+  authedUser,
+  loading
 }), compose(applyMiddleware(thunk, checker, logger),
-    composeWithDevTools()))
+  composeWithDevTools()))
 
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>, document.getElementById('root'));
+  <Provider store={store}>
+    <App/>
+  </Provider>, document.getElementById('root'));
 

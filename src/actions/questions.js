@@ -1,20 +1,28 @@
-import {_getQuestions} from '../API/_DATA'
-
-const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
+import {_getQuestions, _saveQuestionAnswer} from '../API/_DATA'
+import {RECEIVE_QUESTIONS} from './constants'
 
 
 const storeQuestionData = (questions) => ({
-    type: RECEIVE_QUESTIONS,
-    questions
+  type: RECEIVE_QUESTIONS,
+  questions
 })
 
 const getQuestionData = () => {
-    return (dispatch) => {
-        return _getQuestions()
-            .then((questions) => {
-                dispatch(storeQuestionData(questions))
-            })
-    }
+  return (dispatch) => {
+    return _getQuestions()
+      .then((questions) => {
+        dispatch(storeQuestionData(questions))
+      })
+  }
 }
 
-export {getQuestionData}
+const saveUserAnswer = (answerObj) => {
+  return () => {
+    return _saveQuestionAnswer({...answerObj})
+      .catch(() => {
+        alert('Error saving user answer')
+      })
+  }
+}
+
+export {getQuestionData, saveUserAnswer}

@@ -3,17 +3,17 @@ const CLEAR_AUTHED = 'CLEAR_AUTHED'
 
 
 const authedUser = (state = {}, action) => {
-    switch (action.type) {
-        case AUTHED_USER:
-            return {
-                ...state,
-                ...action.authedUser
-            }
-        case CLEAR_AUTHED:
-            return false
-        default:
-            return false
-    }
+  switch (action.type) {
+    case AUTHED_USER:
+      return {
+        ...state,
+        ...action.authedUser
+      }
+    case CLEAR_AUTHED:
+      return false
+    default:
+      return state
+  }
 }
 
 export default authedUser

@@ -2,6 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {saveUserAnswer} from '../actions/questions'
+import LoadingBar from 'react-redux-loading-bar'
 
 
 class Vote extends React.Component {
@@ -15,9 +16,10 @@ class Vote extends React.Component {
   }
 
   handleSubmitVote = (answerObj) => {
-    const {dispatch} = this.props
+    const {dispatch, history} = this.props
 
     dispatch(saveUserAnswer(answerObj))
+    history.push('/')
   }
 
   render() {
@@ -25,6 +27,10 @@ class Vote extends React.Component {
     const {question} = this.props.location.state
     const optionOne = question.optionOne.text
     const optionTwo = question.optionTwo.text
+
+    if (this.props.loading) {
+      return <LoadingBar/>
+    }
 
     return (
       <div>
@@ -92,8 +98,9 @@ class Vote extends React.Component {
   }
 }
 
-const mapStateToProps = ({authedUser}) => ({
-  authedUser
+const mapStateToProps = ({authedUser, loadingBar}) => ({
+  authedUser,
+  loading: loadingBar.default > 0
 })
 
 export default connect(mapStateToProps)(Vote)

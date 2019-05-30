@@ -1,4 +1,4 @@
-const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
+import {ADD_VOTE, RECEIVE_QUESTIONS} from '../actions/constants'
 
 
 const questions = (state = {}, action) => {
@@ -7,6 +7,17 @@ const questions = (state = {}, action) => {
       return {
         ...state,
         ...action.questions
+      }
+    case ADD_VOTE:
+      return {
+        ...state,
+        [action.qid]: {
+          ...state[action.qid],
+          [action.answer]: {
+            ...state[action.qid][action.answer],
+            votes: state[action.qid][action.answer].votes.concat([action.authedUser])
+          }
+        }
       }
     default:
       return state

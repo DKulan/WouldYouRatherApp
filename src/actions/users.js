@@ -1,11 +1,18 @@
 import {_getUsers} from '../API/_DATA'
-import {RECEIVE_USERS} from './constants'
+import {ADD_ANSWER, RECEIVE_USERS} from './constants'
 import {hideLoading, showLoading} from 'react-redux-loading-bar'
 
 
 const storeUserData = (users) => ({
   type: RECEIVE_USERS,
   users
+})
+
+const addAnswer = ({authedUser, qid, answer}) => ({
+  type: ADD_ANSWER,
+  authedUser,
+  qid,
+  answer
 })
 
 const getUserData = () => {
@@ -23,4 +30,4 @@ const getUserData = () => {
   }
 }
 
-export {getUserData}
+export {getUserData, addAnswer}

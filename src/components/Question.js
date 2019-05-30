@@ -1,5 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import moment from 'moment'
+import {Link} from 'react-router-dom'
 
 
 class Question extends React.Component {
@@ -7,17 +9,28 @@ class Question extends React.Component {
     const {question, user} = this.props
 
     return (
-      <React.Fragment>
-        <span className="panel-icon image is-32x32">
+      <div>
+        <div className="panel-heading">
+          <p className="small-heading-text">Posted
+            on: {moment(question.timestamp).format('MMMM Do, YYYY')}</p>
+        </div>
+        <Link
+          to={{
+            pathname: `/question/${question.id}`,
+            state: {question}
+          }}
+          className="panel-block">
+            <span className="panel-icon image is-32x32">
             <img
               className="is-rounded"
               src={user.avatarURL}
               alt="avatar icon"
             />
         </span>
-        <h1><strong>{user.name} posts:</strong> would you
-          rather {question.optionOne.text} <strong>OR</strong> {question.optionTwo.text}</h1>
-      </React.Fragment>
+          <h1><strong>{user.name} posts:</strong> would you
+            rather {question.optionOne.text} <strong>OR</strong> {question.optionTwo.text}</h1>
+        </Link>
+      </div>
     )
   }
 }

@@ -1,12 +1,19 @@
 import {_getQuestions, _saveQuestionAnswer} from '../API/_DATA'
-import {getUserData} from './users'
-import {RECEIVE_QUESTIONS} from './constants'
+import {ADD_VOTE, RECEIVE_QUESTIONS} from './constants'
 import {hideLoading, showLoading} from 'react-redux-loading-bar'
+import {addAnswer} from './users'
 
 
 const storeQuestionData = (questions) => ({
   type: RECEIVE_QUESTIONS,
   questions
+})
+
+const addVote = ({authedUser, qid, answer}) => ({
+  type: ADD_VOTE,
+  authedUser,
+  qid,
+  answer
 })
 
 const getQuestionData = () => {
@@ -23,11 +30,10 @@ const getQuestionData = () => {
 
 const saveUserAnswer = (answerObj) => {
   return (dispatch) => {
+    dispatch(addAnswer({...answerObj}))
+    dispatch(addVote({...answerObj}))
+
     return _saveQuestionAnswer({...answerObj})
-      .then(() => {
-        dispatch(getQuestionData())
-        dispatch(getUserData())
-      })
       .catch(() => {
         alert('Error saving user answer')
       })

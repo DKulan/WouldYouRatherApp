@@ -1,21 +1,12 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import Question from './Question'
-import moment from 'moment'
+import LoadingBar from 'react-redux-loading-bar'
 
 
 class HomePage extends React.Component {
   state = {
-    toggle: false,
-    answered: [],
-    unanswered: []
-  }
-
-  componentDidMount() {
-    const {authedUser, questions} = this.props
-
-    this.setQuestionCategory(questions, authedUser)
+    toggle: false
   }
 
   handleToggle = (status) => {
@@ -30,20 +21,13 @@ class HomePage extends React.Component {
     }
   }
 
-  setQuestionCategory = (questions, authedUser) => {
-    Object.keys(questions).map((key) => questions[key]).filter(question =>
-      authedUser.answers.hasOwnProperty(question.id)
-        ? this.setState((prevState) => ({
-            answered: prevState.answered.concat([question])
-          }))
-        : this.setState((prevState) => ({
-            unanswered: prevState.unanswered.concat([question])
-          }))
-    )
-  }
-
   render() {
-    const {toggle, answered, unanswered} = this.state
+    const {toggle} = this.state
+    const {answered, unanswered, loading} = this.props
+
+    if (loading) {
+      return <LoadingBar/>
+    }
 
     return (
       <div>
@@ -53,51 +37,21 @@ class HomePage extends React.Component {
               <nav className="panel has-background-white">
                 <p className="panel-tabs">
                   <a
-                    className={toggle ? 'button' : 'is-active button'}
+                    className={toggle ? '' : 'is-active'}
                     onClick={() => this.handleToggle(false)}
                   >Unanswered</a>
                   <a
-                    className={toggle ? 'is-active button' : 'button'}
+                    className={toggle ? 'is-active' : ''}
                     onClick={() => this.handleToggle(true)}
                   >Answered</a>
                 </p>
                 {
                   !toggle
                     ? unanswered.map((question) => (
-                      <div key={question.id}>
-                        <div className="panel-heading">
-                          <p className="small-heading-text">Posted
-                            on: {moment(question.timestamp).format('MMMM Do, YYYY')}</p>
-                        </div>
-                        <Link
-                          to={{
-                            pathname: `/question/${question.id}`,
-                            state: {question}
-                          }}
-                          className="panel-block">
-                          <Question
-                            qid={question.id}
-                          />
-                        </Link>
-                      </div>
+                      <Question key={question.id} qid={question.id}/>
                     ))
                     : answered.map((question) => (
-                      <div key={question.id}>
-                        <div className="panel-heading">
-                          <p className="small-heading-text">Posted
-                            on: {moment(question.timestamp).format('MMMM Do, YYYY')}</p>
-                        </div>
-                        <Link
-                          to={{
-                            pathname: `/question/${question.id}`,
-                            state: {question}
-                          }}
-                          className="panel-block">
-                          <Question
-                            qid={question.id}
-                          />
-                        </Link>
-                      </div>
+                      <Question key={question.id} qid={question.id}/>
                     ))
                 }
               </nav>
@@ -109,9 +63,25 @@ class HomePage extends React.Component {
   }
 }
 
-const mapStateToProps = ({questions, authedUser}) => ({
-  questions,
-  authedUser
-})
+const mapStateToProps = ({questions, authedUser, loadingBar}) => {
+
+  const getQuestionCategory = (isItAnswered) => {
+    if (!isItAnswered) {
+      return Object.values(questions).filter((question) =>
+        !question.optionOne.votes.includes(authedUser.id) && !question.optionTwo.votes.includes(authedUser.id))
+    } else {
+      return Object.values(questions).filter((question) =>
+        question.optionOne.votes.includes(authedUser.id) || question.optionTwo.votes.includes(authedUser.id)
+      )
+    }
+  }
+
+  return {
+    questions,
+    answered: Object.values(getQuestionCategory(true)),
+    unanswered: Object.values(getQuestionCategory(false)),
+    loading: loadingBar.default > 0
+  }
+}
 
 export default connect(mapStateToProps)(HomePage)

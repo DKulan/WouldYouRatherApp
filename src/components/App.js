@@ -6,7 +6,6 @@ import LoginPage from './LoginPage'
 import HomePage from './HomePage'
 import Vote from './Vote'
 import NavBar from './NavBar'
-import LoadingBar from 'react-redux-loading-bar'
 
 
 const App = (props) => {
@@ -32,7 +31,6 @@ const App = (props) => {
   return (
     <BrowserRouter>
       {Object.entries(props.authedUser).length !== 0 && <NavBar/>}
-      {props.loading && <LoadingBar/>}
       <Switch>
         <Route path="/login" component={LoginPage}/>
         <PrivateRoute exact path="/" component={HomePage} authenticated={isLoggedIn()}/>
@@ -43,9 +41,8 @@ const App = (props) => {
   )
 }
 
-const mapStateToProps = ({authedUser, loadingBar}) => ({
-  authedUser,
-  loading: loadingBar
+const mapStateToProps = ({authedUser}) => ({
+  authedUser
 })
 
 export default connect(mapStateToProps)(App)

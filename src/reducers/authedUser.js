@@ -10,7 +10,7 @@ const authedUser = (state = {}, action) => {
         ...action.authedUser
       }
     case CLEAR_AUTHED:
-      return false
+      return {}
     default:
       return state
   }

@@ -9,15 +9,15 @@ import {Provider} from 'react-redux'
 import users from './reducers/users'
 import questions from './reducers/questions'
 import authedUser from './reducers/authedUser'
-import loading from './reducers/loading'
 import {composeWithDevTools} from 'redux-devtools-extension'
+import {loadingBarReducer} from 'react-redux-loading-bar'
 
 
 const store = createStore(combineReducers({
   users,
   questions,
   authedUser,
-  loading
+  loadingBar: loadingBarReducer
 }), compose(applyMiddleware(thunk, checker, logger),
   composeWithDevTools()))
 

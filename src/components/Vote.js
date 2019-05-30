@@ -1,5 +1,4 @@
 import React from 'react'
-import NavBar from './NavBar'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {saveUserAnswer} from '../actions/questions'
@@ -16,10 +15,9 @@ class Vote extends React.Component {
   }
 
   handleSubmitVote = (answerObj) => {
-    const {dispatch, history} = this.props
+    const {dispatch} = this.props
 
     dispatch(saveUserAnswer(answerObj))
-    history.push('/')
   }
 
   render() {
@@ -30,7 +28,6 @@ class Vote extends React.Component {
 
     return (
       <div>
-        <NavBar/>
         <div className="hero">
           <div className="div hero-body">
             <div className="container">

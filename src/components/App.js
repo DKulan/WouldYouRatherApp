@@ -1,11 +1,12 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
-import PrivateRoute from 'react-private-route'
 import NotFound from './NotFound'
 import LoginPage from './LoginPage'
 import HomePage from './HomePage'
 import Vote from './Vote'
+import NavBar from './NavBar'
+import LoadingBar from 'react-redux-loading-bar'
 
 
 const App = (props) => {
@@ -30,6 +31,8 @@ const App = (props) => {
 
   return (
     <BrowserRouter>
+      {Object.entries(props.authedUser).length !== 0 && <NavBar/>}
+      {props.loading && <LoadingBar/>}
       <Switch>
         <Route path="/login" component={LoginPage}/>
         <PrivateRoute exact path="/" component={HomePage} authenticated={isLoggedIn()}/>
@@ -40,8 +43,9 @@ const App = (props) => {
   )
 }
 
-const mapStateToProps = ({authedUser}) => ({
-  authedUser
+const mapStateToProps = ({authedUser, loadingBar}) => ({
+  authedUser,
+  loading: loadingBar
 })
 
 export default connect(mapStateToProps)(App)

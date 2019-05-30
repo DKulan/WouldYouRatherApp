@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import NavBar from './NavBar'
 import {Link} from 'react-router-dom'
 import Question from './Question'
 import moment from 'moment'
@@ -8,7 +7,15 @@ import moment from 'moment'
 
 class HomePage extends React.Component {
   state = {
-    toggle: false
+    toggle: false,
+    answered: [],
+    unanswered: []
+  }
+
+  componentDidMount() {
+    const {authedUser, questions} = this.props
+
+    this.setQuestionCategory(questions, authedUser)
   }
 
   handleToggle = (status) => {
@@ -23,24 +30,34 @@ class HomePage extends React.Component {
     }
   }
 
+  setQuestionCategory = (questions, authedUser) => {
+    Object.keys(questions).map((key) => questions[key]).filter(question =>
+      authedUser.answers.hasOwnProperty(question.id)
+        ? this.setState((prevState) => ({
+            answered: prevState.answered.concat([question])
+          }))
+        : this.setState((prevState) => ({
+            unanswered: prevState.unanswered.concat([question])
+          }))
+    )
+  }
+
   render() {
-    const {unanswered, answered} = this.props
-    const {toggle} = this.state
+    const {toggle, answered, unanswered} = this.state
 
     return (
       <div>
-        <NavBar/>
         <div className="hero">
           <div className="div hero-body">
             <div className="container">
               <nav className="panel has-background-white">
                 <p className="panel-tabs">
                   <a
-                    className={toggle ? '' : 'is-active'}
+                    className={toggle ? 'button' : 'is-active button'}
                     onClick={() => this.handleToggle(false)}
                   >Unanswered</a>
                   <a
-                    className={toggle ? 'is-active' : ''}
+                    className={toggle ? 'is-active button' : 'button'}
                     onClick={() => this.handleToggle(true)}
                   >Answered</a>
                 </p>
@@ -92,30 +109,9 @@ class HomePage extends React.Component {
   }
 }
 
-const getQuestionCategory = (state, isItAnswered) => {
-  const {questions, authedUser} = state
-  const answered = []
-  const unanswered = []
-
-  Object.keys(questions).map((key) => questions[key]).filter(question => {
-    if (authedUser.answers.hasOwnProperty(question.id)) {
-      answered.push(question)
-    } else {
-      unanswered.push(question)
-    }
-  })
-
-  return isItAnswered ? answered : unanswered
-}
-
-const mapStateToProps = (state) => {
-  return {
-  questions: state.questions,
-  authedUser: state.authedUser,
-  answered: getQuestionCategory(state, true),
-  unanswered: getQuestionCategory(state, false),
-  loading: state.loading
-}}
-
+const mapStateToProps = ({questions, authedUser}) => ({
+  questions,
+  authedUser
+})
 
 export default connect(mapStateToProps)(HomePage)

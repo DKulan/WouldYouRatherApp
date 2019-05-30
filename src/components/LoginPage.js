@@ -14,23 +14,17 @@ class LoginPage extends React.Component {
   handleSubmit = () => {
     const userId = this.select.value
 
-    const user = this.props.users.find((user) => {
-      if (user.id === userId) {
-        return user
-      }
-    })
+    const user = this.props.users.find((user) => user.id === userId ? user : undefined)
 
     this.props.dispatch(setAuthedUser(user))
     this.props.history.push('/')
   }
 
   render() {
-    const {users, loading} = this.props
+    const {users} = this.props
     return (
       <div>
-        {loading
-          ? <h3>... Loading</h3>
-          : <section className="hero is-alt is-fullheight">
+          <section className="hero is-alt is-fullheight">
             <div className="hero-body">
               <div className="container">
                 <div className="card">
@@ -69,19 +63,17 @@ class LoginPage extends React.Component {
               </div>
             </div>
           </section>
-        }
       </div>
     )
   }
 }
 
-const mapStateToProps = ({users, loading}) => ({
+const mapStateToProps = ({users}) => ({
   users: Object.values(users).map((user) => {
     return ({
       ...user
     })
-  }),
-  loading
+  })
 })
 
 export default connect(mapStateToProps)(LoginPage)

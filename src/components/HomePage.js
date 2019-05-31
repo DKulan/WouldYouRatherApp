@@ -88,8 +88,24 @@ const mapStateToProps = ({questions, authedUser, loadingBar}) => {
 
   return {
     questions,
-    answered: Object.values(getQuestionCategory(true)),
-    unanswered: Object.values(getQuestionCategory(false)),
+    answered: Object.values(getQuestionCategory(true)).sort((a, b) => {
+      if (a.timestamp > b.timestamp) {
+        return -1
+      } else if (a.timestamp < b.timestamp) {
+        return 1
+      } else {
+        return 0
+      }
+    }),
+    unanswered: Object.values(getQuestionCategory(false)).sort((a, b) => {
+      if (a.timestamp > b.timestamp) {
+        return -1
+      } else if (a.timestamp < b.timestamp) {
+        return 1
+      } else {
+        return 0
+      }
+    }),
     loading: loadingBar.default > 0
   }
 }

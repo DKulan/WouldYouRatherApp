@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 
 class Question extends React.Component {
   render() {
-    const {question, user} = this.props
+    const {question, user, qid} = this.props
 
     return (
       <div>
@@ -16,8 +16,12 @@ class Question extends React.Component {
         </div>
         <Link
           to={{
-            pathname: `/question/${question.id}`,
-            state: {question}
+            pathname: `/question/${qid}`,
+            state: {
+              qid,
+              question,
+              category: this.props.category
+            }
           }}
           className="panel-block">
             <span className="panel-icon image is-32x32">

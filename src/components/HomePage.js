@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import Question from './Question'
 import LoadingBar from 'react-redux-loading-bar'
+import NavBar from './NavBar'
 
 
 class HomePage extends React.Component {
@@ -31,6 +32,7 @@ class HomePage extends React.Component {
 
     return (
       <div>
+        <NavBar/>
         <div className="hero">
           <div className="div hero-body">
             <div className="container">
@@ -48,10 +50,18 @@ class HomePage extends React.Component {
                 {
                   !toggle
                     ? unanswered.map((question) => (
-                      <Question key={question.id} qid={question.id}/>
+                      <Question
+                        key={question.id}
+                        qid={question.id}
+                        category={'unanswered'}
+                      />
                     ))
                     : answered.map((question) => (
-                      <Question key={question.id} qid={question.id}/>
+                      <Question
+                        key={question.id}
+                        qid={question.id}
+                        category={'answered'}
+                      />
                     ))
                 }
               </nav>

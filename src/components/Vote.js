@@ -37,9 +37,6 @@ class Vote extends React.Component {
     const optionOne = question[0].optionOne.text
     const optionTwo = question[0].optionTwo.text
 
-    console.log(question[0].optionOne, qid, category)
-
-
     if (this.props.loading) {
       return <LoadingBar/>
     }
@@ -60,6 +57,7 @@ class Vote extends React.Component {
                       optionOne,
                       optionTwo
                     }}
+                    qid={qid}
                   />
                 </nav>
               </div>
@@ -85,6 +83,7 @@ class Vote extends React.Component {
                       optionOne,
                       optionTwo
                     }}
+                    qid={qid}
                   />
                   : <div className="panel-body">
                     <div className="panel-block">

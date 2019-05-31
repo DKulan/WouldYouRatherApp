@@ -21,7 +21,7 @@ class LoginPage extends React.Component {
 
     dispatch(setAuthedUser(user))
 
-    if (history.action === 'REPLACE') {
+    if (history.action === 'REPLACE' && history.location.state !== undefined) {
       history.push(`${history.location.state.from.pathname}`)
     } else {
       history.push('/')

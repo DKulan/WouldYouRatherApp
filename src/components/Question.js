@@ -15,14 +15,7 @@ class Question extends React.Component {
             on: {moment(question.timestamp).format('MMMM Do, YYYY')}</p>
         </div>
         <Link
-          to={{
-            pathname: `/question/${qid}`,
-            state: {
-              qid,
-              question,
-              category: this.props.category
-            }
-          }}
+          to={`/questions/${qid}`}
           className="panel-block">
             <span className="panel-icon image is-32x32">
             <img

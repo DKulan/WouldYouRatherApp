@@ -5,7 +5,6 @@ import NotFound from './NotFound'
 import LoginPage from './LoginPage'
 import HomePage from './HomePage'
 import Vote from './Vote'
-import Poll from './Poll'
 
 
 const App = (props) => {
@@ -33,8 +32,7 @@ const App = (props) => {
       <Switch>
         <Route exact path="/login" component={LoginPage}/>
         <PrivateRoute exact path="/" component={HomePage} authenticated={isLoggedIn()}/>
-        <PrivateRoute path="/question/:qid" component={Vote} authenticated={isLoggedIn()}/>
-        <PrivateRoute path="/question/:qid/poll" component={Poll} authenticated={isLoggedIn()}/>
+        <PrivateRoute path="/questions/:question_id" component={Vote} authenticated={isLoggedIn()}/>
         <Route component={NotFound}/>
       </Switch>
     </BrowserRouter>

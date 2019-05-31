@@ -13,16 +13,25 @@ class LoginPage extends React.Component {
   }
 
   handleSubmit = () => {
+    const {dispatch, history} = this.props
+
     const userId = this.select.value
 
     const user = this.props.users.find((user) => user.id === userId ? user : undefined)
 
-    this.props.dispatch(setAuthedUser(user))
-    this.props.history.push('/')
+    dispatch(setAuthedUser(user))
+
+    if (history.action === 'REPLACE') {
+      history.push(`${history.location.state.from.pathname}`)
+    } else {
+      history.push('/')
+    }
   }
 
   render() {
     const {users, loading} = this.props
+
+    console.log(this.props)
 
     if (loading) {
       return <LoadingBar/>

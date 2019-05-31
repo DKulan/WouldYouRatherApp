@@ -33,9 +33,11 @@ class Vote extends React.Component {
   }
 
   render() {
-    const {question, qid, category} = this.props.location.state
-    const optionOne = question.optionOne.text
-    const optionTwo = question.optionTwo.text
+    const {question, qid, category} = this.props
+    const optionOne = question[0].optionOne.text
+    const optionTwo = question[0].optionTwo.text
+
+    console.log(question[0].optionOne, qid, category)
 
 
     if (this.props.loading) {
@@ -51,9 +53,14 @@ class Vote extends React.Component {
               <div className="container">
                 <nav className="panel has-background-white">
                   <div className="panel-heading">
-                    <h1><strong className="has-text-primary">Would you rather?</strong></h1>
+                    <h1><strong className="has-text-primary">Poll Results</strong></h1>
                   </div>
-                  <Poll/>
+                  <Poll
+                    options={{
+                      optionOne,
+                      optionTwo
+                    }}
+                  />
                 </nav>
               </div>
             </div>
@@ -73,7 +80,12 @@ class Vote extends React.Component {
                   <h1><strong className="has-text-primary">Would you rather?</strong></h1>
                 </div>
                 {category === 'answered'
-                  ? <Poll/>
+                  ? <Poll
+                    options={{
+                      optionOne,
+                      optionTwo
+                    }}
+                  />
                   : <div className="panel-body">
                     <div className="panel-block">
                       <div className="field">
@@ -132,9 +144,28 @@ class Vote extends React.Component {
   }
 }
 
-const mapStateToProps = ({authedUser, loadingBar}) => ({
-  authedUser,
-  loading: loadingBar.default > 0
-})
+const mapStateToProps = ({authedUser, questions, loadingBar}, {match}) => {
+  const question = Object.keys(questions).map((key) => questions[key]).filter((q) => (
+    q.id === match.params.question_id
+  ))
+
+  const getQuestionCategory = () => {
+    const isQuestionAnswered = Object.keys(authedUser.answers).includes(match.params.question_id)
+
+    if (isQuestionAnswered) {
+      return 'answered'
+    } else {
+      return 'unanswered'
+    }
+  }
+
+  return {
+    question: Object.values(question),
+    qid: match.params.question_id,
+    category: getQuestionCategory(),
+    authedUser,
+    loading: loadingBar.default > 0
+  }
+}
 
 export default connect(mapStateToProps)(Vote)

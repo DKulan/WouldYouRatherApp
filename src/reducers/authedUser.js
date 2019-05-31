@@ -1,5 +1,4 @@
-const AUTHED_USER = 'AUTHED_USER'
-const CLEAR_AUTHED = 'CLEAR_AUTHED'
+import {AUTHED_USER, ADD_ANSWER, CLEAR_AUTHED} from '../actions/constants'
 
 
 const authedUser = (state = {}, action) => {
@@ -8,6 +7,14 @@ const authedUser = (state = {}, action) => {
       return {
         ...state,
         ...action.authedUser
+      }
+    case ADD_ANSWER:
+      return {
+        ...state,
+        answers: {
+          ...state.answers,
+          [action.qid]: action.answer
+        }
       }
     case CLEAR_AUTHED:
       return {}

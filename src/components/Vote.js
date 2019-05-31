@@ -13,15 +13,15 @@ class Vote extends React.Component {
     redirect: false
   }
 
+  handleChange = (e) => {
+    const radioValue = e.target.value
+    this.setState(() => ({radioValue}))
+  }
+
   handleRedirect = () => {
     this.setState(() => ({
       redirect: true
     }))
-  }
-
-  handleChange = (e) => {
-    const radioValue = e.target.value
-    this.setState(() => ({radioValue}))
   }
 
   handleSubmitVote = (answerObj) => {
@@ -41,29 +41,15 @@ class Vote extends React.Component {
       return <LoadingBar/>
     }
 
-    if (this.state.redirect) {
+    if (category === 'answered' || this.state.redirect) {
       return (
-        <div>
-          <NavBar/>
-          <div className="hero">
-            <div className="div hero-body">
-              <div className="container">
-                <nav className="panel has-background-white">
-                  <div className="panel-heading">
-                    <h1><strong className="has-text-primary">Poll Results</strong></h1>
-                  </div>
-                  <Poll
-                    options={{
-                      optionOne,
-                      optionTwo
-                    }}
-                    qid={qid}
-                  />
-                </nav>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Poll
+          options={{
+            optionOne,
+            optionTwo
+          }}
+          qid={qid}
+        />
       )
     }
 
@@ -77,63 +63,54 @@ class Vote extends React.Component {
                 <div className="panel-heading">
                   <h1><strong className="has-text-primary">Would you rather?</strong></h1>
                 </div>
-                {category === 'answered'
-                  ? <Poll
-                    options={{
-                      optionOne,
-                      optionTwo
-                    }}
-                    qid={qid}
-                  />
-                  : <div className="panel-body">
-                    <div className="panel-block">
-                      <div className="field">
-                        <div className="control">
-                          <label>
-                            <input
-                              onChange={this.handleChange}
-                              type="radio"
-                              value="optionOne"
-                              name="options"
-                              defaultChecked
-                            />
-                            {optionOne}
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="panel-block">
-                      <div className="field">
-                        <div className="control">
-                          <label>
-                            <input
-                              onChange={this.handleChange}
-                              type="radio"
-                              value="optionTwo"
-                              name="options"/>
-                            {optionTwo}
-                          </label>
-                        </div>
-                        <hr/>
-                        <button
-                          onClick={() => {
-                            this.handleSubmitVote({
-                              authedUser: this.props.authedUser.id,
-                              qid,
-                              answer: this.state.radioValue
-                            })
-                          }}
-                          type="submit"
-                          className="button is-success">
-                          Submit
-                        </button>
-                        <Link to='/' className="button is-success left-margin">
-                          Cancel
-                        </Link>
+                <div className="panel-body">
+                  <div className="panel-block">
+                    <div className="field">
+                      <div className="control">
+                        <label>
+                          <input
+                            onChange={this.handleChange}
+                            type="radio"
+                            value="optionOne"
+                            name="options"
+                            defaultChecked
+                          />
+                          {optionOne}
+                        </label>
                       </div>
                     </div>
                   </div>
-                }
+                  <div className="panel-block">
+                    <div className="field">
+                      <div className="control">
+                        <label>
+                          <input
+                            onChange={this.handleChange}
+                            type="radio"
+                            value="optionTwo"
+                            name="options"/>
+                          {optionTwo}
+                        </label>
+                      </div>
+                      <hr/>
+                      <button
+                        onClick={() => {
+                          this.handleSubmitVote({
+                            authedUser: this.props.authedUser.id,
+                            qid,
+                            answer: this.state.radioValue
+                          })
+                        }}
+                        type="submit"
+                        className="button is-success">
+                        Submit
+                      </button>
+                      <Link to='/' className="button is-success left-margin">
+                        Cancel
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </nav>
             </div>
           </div>

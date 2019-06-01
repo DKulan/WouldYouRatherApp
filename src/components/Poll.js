@@ -23,7 +23,6 @@ const Poll = (props) => {
                 <div className="panel-block">
                   <div className="container">
                     <div className="fields">
-                      {console.log(props.userChoice)}
                       <h1><strong>{props.options.optionOne}</strong> {props.userChoice === 'optionOne' && <span className="has-text-danger">(Your vote)</span>}</h1>
                       <p
                         className="has-text-primary">{props.numOfOptOne} user{props.numOfOptOne === 0 && 's'}{props.numOfOptOne > 1 && 's'} voted
@@ -66,6 +65,7 @@ const mapStateToProps = ({authedUser, users}, {qid, user}) => {
     } else if (user.answers[qid] === 'optionTwo') {
       numOfOptTwo++
     }
+    return null
   })
 
   const userChoice = authedUser.answers[qid]

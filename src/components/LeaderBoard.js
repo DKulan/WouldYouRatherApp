@@ -12,7 +12,10 @@ const LeaderBoard = (props) => {
           <div className="container">
             {
               props.sortedUsers.map((user) => (
-                <nav className="panel has-background-white">
+                <nav
+                  key={user.id}
+                  className="panel has-background-white"
+                >
                   <div className="panel-heading">
                     <div className="panel-icon image is-32x32">
                       <img

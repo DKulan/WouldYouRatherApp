@@ -34,7 +34,7 @@ class HomePage extends React.Component {
       <div>
         <NavBar/>
         <div className="hero">
-          <div className="div hero-body">
+          <div className="hero-body">
             <div className="container">
               <nav className="panel has-background-white">
                 <p className="panel-tabs">

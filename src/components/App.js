@@ -6,6 +6,7 @@ import LoginPage from './LoginPage'
 import HomePage from './HomePage'
 import Vote from './Vote'
 import LeaderBoard from './LeaderBoard'
+import AddNewQuestion from './AddNewQuestion'
 
 
 const App = (props) => {
@@ -35,6 +36,7 @@ const App = (props) => {
         <PrivateRoute exact path="/" component={HomePage} authenticated={isLoggedIn()}/>
         <PrivateRoute path="/questions/:question_id" component={Vote} authenticated={isLoggedIn()}/>
         <PrivateRoute path="/leaderboard" component={LeaderBoard} authenticated={isLoggedIn()}/>
+        <PrivateRoute path="/add" component={AddNewQuestion} authenticated={isLoggedIn()}/>
         <Route component={NotFound}/>
       </Switch>
     </BrowserRouter>

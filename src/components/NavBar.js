@@ -16,7 +16,7 @@ const NavBar = (props) => {
         <div className="navbar-start">
           <Link to={'/'} className="navbar-item">Home</Link>
           <Link to={'/leaderboard'} className="navbar-item">Leader board</Link>
-          <Link to={'/'} className="navbar-item">New Question</Link>
+          <Link to={'/add'} className="navbar-item">New Question</Link>
         </div>
         <div className="navbar-end">
           <div className="navbar-item">

@@ -12,7 +12,12 @@ const Poll = (props) => {
           <div className="container">
             <nav className="panel has-background-white">
               <div className="panel-heading">
-                <h1><strong className="has-text-primary">Poll Results</strong></h1>
+                <img
+                  className="is-rounded"
+                  src={props.user.avatarURL}
+                  alt="avatar icon"
+                />
+                <h1><strong className="has-text-primary">{props.user.name} Asks: would you rather?</strong></h1>
               </div>
               <div className="panel-body">
                 <div className="panel-block">
@@ -51,7 +56,7 @@ const Poll = (props) => {
   )
 }
 
-const mapStateToProps = ({authedUser, users}, {qid}) => {
+const mapStateToProps = ({authedUser, users}, {qid, user}) => {
   let numOfOptOne = 0
   let numOfOptTwo = 0
 
@@ -66,6 +71,7 @@ const mapStateToProps = ({authedUser, users}, {qid}) => {
   const userChoice = authedUser.answers[qid]
 
   return {
+    user,
     userChoice,
     authedUser,
     numOfOptOne,

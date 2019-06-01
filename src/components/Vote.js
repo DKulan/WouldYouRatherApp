@@ -52,6 +52,7 @@ class Vote extends React.Component {
             optionTwo
           }}
           qid={qid}
+          user={user}
         />
       )
     }
@@ -64,7 +65,6 @@ class Vote extends React.Component {
             <div className="container">
               <nav className="panel has-background-white">
                 <div className="panel-heading">
-                  {console.log(user)}
                   <img
                     className="is-rounded"
                     src={user.avatarURL}

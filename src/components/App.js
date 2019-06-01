@@ -5,6 +5,7 @@ import NotFound from './NotFound'
 import LoginPage from './LoginPage'
 import HomePage from './HomePage'
 import Vote from './Vote'
+import LeaderBoard from './LeaderBoard'
 
 
 const App = (props) => {
@@ -33,6 +34,7 @@ const App = (props) => {
         <Route exact path="/login" component={LoginPage}/>
         <PrivateRoute exact path="/" component={HomePage} authenticated={isLoggedIn()}/>
         <PrivateRoute path="/questions/:question_id" component={Vote} authenticated={isLoggedIn()}/>
+        <PrivateRoute path="/leaderboard" component={LeaderBoard} authenticated={isLoggedIn()}/>
         <Route component={NotFound}/>
       </Switch>
     </BrowserRouter>

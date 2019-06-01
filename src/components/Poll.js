@@ -18,7 +18,8 @@ const Poll = (props) => {
                 <div className="panel-block">
                   <div className="container">
                     <div className="fields">
-                      <h1>{props.options.optionOne}</h1>
+                      {console.log(props.userChoice)}
+                      <h1><strong>{props.options.optionOne}</strong> {props.userChoice === 'optionOne' && <span className="has-text-danger">(Your vote)</span>}</h1>
                       <p
                         className="has-text-primary">{props.numOfOptOne} user{props.numOfOptOne === 0 && 's'}{props.numOfOptOne > 1 && 's'} voted
                         for this</p>
@@ -31,7 +32,7 @@ const Poll = (props) => {
                 <div className="panel-block">
                   <div className="container">
                     <div className="fields">
-                      <h1>{props.options.optionTwo}</h1>
+                      <h1><strong>{props.options.optionTwo}</strong> {props.userChoice === 'optionTwo' && <span className="has-text-danger">(Your vote)</span>}</h1>
                       <p
                         className="has-text-primary">{props.numOfOptTwo} user{props.numOfOptTwo === 0 && 's'}{props.numOfOptTwo > 1 && 's'} voted
                         for this</p>
@@ -50,7 +51,7 @@ const Poll = (props) => {
   )
 }
 
-const mapStateToProps = ({users}, {qid}) => {
+const mapStateToProps = ({authedUser, users}, {qid}) => {
   let numOfOptOne = 0
   let numOfOptTwo = 0
 
@@ -62,7 +63,11 @@ const mapStateToProps = ({users}, {qid}) => {
     }
   })
 
+  const userChoice = authedUser.answers[qid]
+
   return {
+    userChoice,
+    authedUser,
     numOfOptOne,
     numOfOptTwo,
     percentageOptionOne: Math.floor(numOfOptOne/(numOfOptOne+numOfOptTwo)*100),

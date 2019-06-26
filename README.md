@@ -1,9 +1,9 @@
 This project was created as a requirement of Udacity's React Nanodegree program.
 
-# Would You Rather?
 **You can view the app here:**
 > https://dkulan-wouldyourather.herokuapp.com
 
+# Would You Rather?
 **Description:**  
 Would You Rather is a web application built with React.js that allows for users to post questions with 2 different answers for other users to vote on.
 
